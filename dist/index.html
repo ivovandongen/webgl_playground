@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/lessons/resources/3d-math.js"></script>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <script id="2d-vertex-shader" type="x-shader/x-vertex">
+        attribute vec3 a_position;
+        attribute vec2 a_texCoords;
+
+        varying highp vec2 texCoords;
+
+        uniform mat4 u_model;
+        uniform mat4 u_view;
+        uniform mat4 u_projection;
+        
+        void main() {
+            gl_Position = u_projection * u_view * u_model * vec4(a_position, 1);
+            texCoords = a_texCoords;
+        }
+    </script>
+    <!-- fragment shader -->
+    <script id="2d-fragment-shader" type="x-shader/x-fragment">
+        varying highp vec2 texCoords;
+
+        void main() {
+            gl_FragColor = vec4(texCoords,0,1);
+        }
+    </script>
+    <canvas id="c"></canvas>
+    <script src="main.js"></script>
+</body>
+
+</html>

@@ -66,29 +66,25 @@ export function start() {
         gl.clear(gl.COLOR_BUFFER_BIT);
 
         // Projection
-        var projection = mat4.create();
-        // mat4.scale(projection, projection, vec3.fromValues(1/10, 1/10, 1));
-
         var fieldOfView = deg2rad(90);
         var aspect = canvas.clientWidth / canvas.clientHeight;
-        var perspective = mat4.create();
-        mat4.perspective(perspective, fieldOfView, aspect, 0.1, 100);
-
-        mat4.multiply(projection, perspective, projection);
+        var projection = mat4.create();
+        mat4.perspective(projection, fieldOfView, aspect, 0.1, 2000);
         gl.uniformMatrix4fv(projectionLoc, false, projection);
 
         // View
-        var eye = vec3.fromValues(1, 0, 3);
-        var target = vec3.fromValues(0, 0, 0);
+        var eye = vec3.fromValues(256, 256, 512);
+        var target = vec3.fromValues(256, 256, 0);
         var up = vec3.fromValues(0, 1, 0);
         var view = mat4.create();
-        mat4.lookAt(view, eye, target, up);
+        mat4.targetTo(view, eye, target, up);
+        mat4.invert(view, view);
 
         gl.uniformMatrix4fv(viewLoc, false, view);
 
         // Model
         var model = m.identity();
-        // mat4.translate(model, model, vec3.fromValues(10,10,0));
+        mat4.scale(model, model, vec3.fromValues(512, 512, 1));
 
         gl.uniformMatrix4fv(modelLoc, false, model);
 
